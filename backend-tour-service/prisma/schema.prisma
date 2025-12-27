@@ -1,0 +1,55 @@
+model Tour {
+  id                   String   @id @default(uuid())
+  title                String
+  overview             String   @db.Text
+  duration             String   
+  meetingPoint         String
+  categories           String[]
+  route                String
+  startTimes           String[]
+  baseAmount           Float
+  currency             String   @default("USD")
+  wheelchairAccessible Boolean  @default(false)
+  supportedAllergies   String[]
+  highlights           String[]
+  itinerary            Json     
+  accessibilityNotes   String[]
+  thumbnail            Json    
+  gallery              Json    
+  introVideoUrl        String?
+  schedules            TourSchedule[]
+  createdAt            DateTime @default(now())
+  deletedAt DateTime?  @index
+}
+
+model TourSchedule {
+  id              String   @id @default(uuid())
+  tourId          String
+  tour            Tour     @relation(fields: [tourId], references: [id])
+  startTime       DateTime
+  maxCapacity     Int
+  timeZone        String 
+  currentBookings Int      @default(0)
+  status          String   @default("available")
+  assignedStaff   String?
+  isHoliday       Boolean  @default(false)
+  bookings        Booking[]
+}
+
+model Booking {
+  id                    String   @id @default(uuid())
+  scheduleId            String
+  schedule              TourSchedule @relation(fields: [scheduleId], references: [id])
+  tourStartTime         DateTime 
+  contactEmail          String
+  contactPhone          String
+  guestName             String
+  numberOfGuests        Int
+  totalPrice            Float
+  paymentStatus         String   @default("unpaid")
+  status                String   @default("pending") 
+  stripePaymentIntentId String?
+  customerNote          String?  @db.Text
+  createdAt             DateTime @default(now())
+  deletedAt DateTime?   @index
+}
