@@ -1,3 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+}
+
 model Tour {
   id                   String   @id @default(uuid())
   title                String
@@ -19,7 +27,8 @@ model Tour {
   introVideoUrl        String?
   schedules            TourSchedule[]
   createdAt            DateTime @default(now())
-  deletedAt DateTime?  @index
+  deletedAt            DateTime?
+  @@index([deletedAt])
 }
 
 model TourSchedule {
@@ -51,5 +60,6 @@ model Booking {
   stripePaymentIntentId String?
   customerNote          String?  @db.Text
   createdAt             DateTime @default(now())
-  deletedAt DateTime?   @index
+  deletedAt             DateTime?
+  @@index([deletedAt])
 }
