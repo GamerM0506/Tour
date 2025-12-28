@@ -4,6 +4,7 @@ import { ScheduleResponse } from "src/application/dtos/schedule/responses/schedu
 import { CreateScheduleRequest } from "src/application/dtos/schedule/requests/create-schedule.request";
 import { TourSchedule } from "src/domain/entities/tour-schedule.entity";
 import { ScheduleStatus } from "src/domain/enums/schedule-status.enum";
+import { ScheduleNotFoundException } from "src/domain/exceptions/schedule.exception";
 
 export class CreateScheduleUseCase {
     constructor(
@@ -13,7 +14,7 @@ export class CreateScheduleUseCase {
 
     async execute(dto: CreateScheduleRequest): Promise<ScheduleResponse> {
         const tour = await this.tourRepo.findById(dto.tourId);
-        if (!tour) throw new Error("Tour not found to create schedule.");
+        if (!tour) throw new ScheduleNotFoundException();
 
         const schedule = new TourSchedule(
             dto.tourId,

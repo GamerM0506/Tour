@@ -1,6 +1,7 @@
 import { IBookingRepository } from 'src/domain/repositories/booking.repository'
 import { PaymentStatus } from 'src/domain/enums/payment-status.enum';
 import { IStripeService } from 'src/application/interfaces/stripe.service';
+import { BookingNotFoundException } from 'src/domain/exceptions/booking.exception';
 
 export class CancelBookingUseCase {
     constructor(
@@ -10,7 +11,8 @@ export class CancelBookingUseCase {
 
     async execute(bookingId: string): Promise<void> {
         const booking = await this.bookingRepo.findById(bookingId);
-        if (!booking) throw new Error("Order not found.");
+        if (!booking) throw new BookingNotFoundException();
+
         if (booking.stripePaymentIntentId) {
             if (booking.paymentStatus === PaymentStatus.PAID) {
                 await this.stripeService.refundPayment(booking.stripePaymentIntentId);

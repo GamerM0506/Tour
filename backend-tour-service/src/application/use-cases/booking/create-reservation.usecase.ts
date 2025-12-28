@@ -4,6 +4,8 @@ import { BookingResponse } from 'src/application/dtos/booking/responses/booking.
 import { Booking } from 'src/domain/entities/booking.entity';
 import { IUnitOfWork } from 'src/application/interfaces/unit-of-work';
 import { BookingCapacityExceededException } from 'src/domain/exceptions/booking.exception';
+import { ScheduleNotFoundException } from 'src/domain/exceptions/schedule.exception';
+import { TourNotFoundException } from 'src/domain/exceptions/tour.exception';
 
 export class CreateReservationUseCase {
     constructor(
@@ -14,14 +16,12 @@ export class CreateReservationUseCase {
     async execute(dto: CreateBookingRequest): Promise<BookingResponse> {
         return await this.unitOfWork.run(async (tx) => {
             const schedule = await tx.schedules.findByIdWithLock(dto.scheduleId);
-            if (!schedule || schedule.isDeleted) {
-                throw new Error("The schedule does not exist.");
-            }
+            if (!schedule || schedule.isDeleted) throw new ScheduleNotFoundException();
+
             const tour = await this.tourRepo.findById(schedule.tourId);
+            if (!tour) throw new TourNotFoundException();
 
-            if (!tour) throw new Error("The tour does not exist.");
             tour.validateGuestRequirements(dto.needsWheelchair, dto.allergies);
-
             if (!schedule.hasEnoughSlots(dto.numberOfGuests)) {
                 throw new BookingCapacityExceededException();
             }

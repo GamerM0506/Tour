@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateBookingPayload } from '../booking/create-booking.payload';
+import { CreateSchedulePayload } from './create-schedule.payload';
 
-export class UpdateSchedulePayload extends PartialType(CreateBookingPayload) {}
+export class UpdateSchedulePayload extends PartialType(CreateSchedulePayload) { }

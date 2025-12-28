@@ -11,3 +11,8 @@ export class IncompatibleTourException extends DomainException {
         super(`Tour not suitable for customer: ${reason}`);
     }
 }
+
+export class TourNotFoundException extends DomainException {
+    constructor() { super('The requested tour could not be found or has been deleted'); }
+}
+

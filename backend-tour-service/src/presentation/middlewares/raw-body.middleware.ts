@@ -5,11 +5,11 @@ import { json } from 'body-parser';
 @Injectable()
 export class RawBodyMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
-        if (req.originalUrl.includes('/payments/webhook')) {
+        if (req.originalUrl.includes('/bookings/webhook')) {
             json({
                 verify: (req: any, res, buf) => {
                     if (Buffer.isBuffer(buf)) {
-                        req.rawBody = Buffer.from(buf);
+                        req.rawBody = buf;
                     }
                     return true;
                 },

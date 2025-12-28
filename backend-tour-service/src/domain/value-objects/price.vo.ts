@@ -1,4 +1,6 @@
 import { Currency } from "../enums/currency.enum";
+import { BookingCapacityExceededException, InvalidGuestCountException } from "../exceptions/booking.exception";
+import { InvalidTourPriceException } from "../exceptions/tour.exception";
 
 export class Price {
     constructor(
@@ -7,15 +9,23 @@ export class Price {
         public readonly isPrivate: boolean = false,
         public readonly minGuests: number = 1,
         public readonly maxGuests: number = 10
-    ) { }
+    ) {
+        this.validatePricePackage();
+    }
+
+    private validatePricePackage(): void {
+        const validPackages = [15, 40];
+        if (!validPackages.includes(this.baseAmount)) {
+            throw new InvalidTourPriceException(this.baseAmount);
+        }
+    }
 
     public validateGuestCount(count: number): void {
-        if (count < this.minGuests) {
-            throw new Error(`This tour requires a minimum of ${this.minGuests} guests.`);
+        if (count < this.minGuests || count <= 0) {
+            throw new InvalidGuestCountException();
         }
-
         if (count > this.maxGuests) {
-            throw new Error(`This tour only accepts a maximum of ${this.maxGuests} guests.`);
+            throw new BookingCapacityExceededException();
         }
     }
 

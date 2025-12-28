@@ -1,6 +1,8 @@
 import { BaseEntity } from './base.entity';
 import { ScheduleStatus } from '../enums/schedule-status.enum';
 import { Price } from '../value-objects/price.vo';
+import { PastScheduleException } from '../exceptions/schedule.exception';
+import { BookingCapacityExceededException } from '../exceptions/booking.exception';
 
 export class TourSchedule extends BaseEntity {
     constructor(
@@ -20,7 +22,7 @@ export class TourSchedule extends BaseEntity {
 
     private validateTime(): void {
         if (new Date() > this.startTime) {
-            throw new Error("Cannot create a schedule in the past");
+            throw new PastScheduleException();
         }
     }
 
@@ -40,7 +42,7 @@ export class TourSchedule extends BaseEntity {
 
     public addBooking(count: number): void {
         if (!this.hasEnoughSlots(count)) {
-            throw new Error("This schedule is full.");
+            throw new BookingCapacityExceededException();
         }
         this._currentBookings += count;
 

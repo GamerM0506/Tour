@@ -1,6 +1,7 @@
 import { BaseEntity } from './base.entity';
 import { BookingStatus } from '../enums/booking-status.enum';
 import { PaymentStatus } from '../enums/payment-status.enum';
+import { CancellationDeadlineException } from '../exceptions/booking.exception';
 
 export class Booking extends BaseEntity {
     constructor(
@@ -24,7 +25,7 @@ export class Booking extends BaseEntity {
 
     public cancel(): void {
         if (!this.canCancel()) {
-            throw new Error("Cancellation deadline has passed.");
+            throw new CancellationDeadlineException();
         }
         (this as any).status = BookingStatus.CANCELLED;
         this.softDelete();

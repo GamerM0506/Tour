@@ -3,6 +3,8 @@ import { ITourScheduleRepository } from 'src/domain/repositories/tour-schedule.r
 import { IStripeService } from 'src/application/interfaces/stripe.service';
 import { IUnitOfWork } from 'src/application/interfaces/unit-of-work';
 import { PaymentStatus } from 'src/domain/enums/payment-status.enum';
+import { ScheduleNotFoundException } from 'src/domain/exceptions/schedule.exception';
+import { BookingCapacityExceededException, BookingNotFoundException } from 'src/domain/exceptions/booking.exception';
 
 export class ConfirmPaymentUseCase {
     constructor(
@@ -13,11 +15,13 @@ export class ConfirmPaymentUseCase {
 
     async execute(paymentIntentId: string): Promise<void> {
         const booking = await this.bookingRepo.findByPaymentIntentId(paymentIntentId);
-        if (!booking) throw new Error("The transaction does not exist in the system.");
+        if (!booking) throw new BookingNotFoundException();
+
         if (booking.paymentStatus === PaymentStatus.PAID) return;
+
         await this.unitOfWork.run(async (tx) => {
             const schedule = await tx.schedules.findByIdWithLock(booking.scheduleId);
-            if (!schedule) throw new Error("Schedule not found.");
+            if (!schedule) throw new ScheduleNotFoundException();
 
             if (schedule.hasEnoughSlots(booking.numberOfGuests)) {
                 await this.stripeService.capturePayment(paymentIntentId);
@@ -29,7 +33,7 @@ export class ConfirmPaymentUseCase {
                 await this.stripeService.voidPayment(paymentIntentId);
                 booking.softDelete();
                 await tx.bookings.update(booking);
-                throw new Error("Out of slots! Your payment has been voided.");
+                throw new BookingCapacityExceededException();
             }
         });
     }

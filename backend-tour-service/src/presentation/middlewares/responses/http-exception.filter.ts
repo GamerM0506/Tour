@@ -8,17 +8,18 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
 
-        const status = exception instanceof HttpException
-            ? exception.getStatus()
-            : HttpStatus.INTERNAL_SERVER_ERROR;
+        let status = HttpStatus.INTERNAL_SERVER_ERROR;
+        let message = exception.message || 'Unknown system error';
+        
+        if (exception instanceof HttpException) {
+            status = exception.getStatus();
+            const res = exception.getResponse();
+            message = typeof res === 'object' ? (res as any).message : res;
+        }
 
-        const exceptionResponse = exception instanceof HttpException
-            ? exception.getResponse()
-            : null;
-
-        const message = typeof exceptionResponse === 'object' && exceptionResponse !== null
-            ? (exceptionResponse as any).message || (exceptionResponse as any).error
-            : exception.message || 'Lỗi hệ thống không xác định';
+        else if (exception.name === 'DomainException') {
+            status = HttpStatus.BAD_REQUEST;
+        }
 
         response.status(status).json({
             success: false,
