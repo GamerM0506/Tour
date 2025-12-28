@@ -1,11 +1,10 @@
 import { ITourRepository } from 'src/domain/repositories/tour.repository';
 import { Tour } from 'src/domain/entities/tour.entity';
-import { prisma } from '../../../config/prisma.service';
+import { PrismaService } from '../../../config/prisma.service';
 import { TourMapper } from '../mappers/tour.mapper';
-import { PrismaClient } from '@prisma/client';
 
 export class PrismaTourRepository implements ITourRepository {
-    constructor(private readonly client: PrismaClient = prisma) { }
+    constructor(private readonly client: PrismaService) { }
 
     async findByCategory(category: string): Promise<Tour[]> {
         const raws = await this.client.tour.findMany({

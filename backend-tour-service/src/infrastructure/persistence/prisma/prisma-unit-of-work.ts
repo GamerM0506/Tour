@@ -1,16 +1,17 @@
 import { IUnitOfWork } from 'src/application/interfaces/unit-of-work';
-import { prisma } from '../../config/prisma.service';
+import { PrismaService } from '../../config/prisma.service';
 import { PrismaBookingRepository } from './repositories/prisma-booking.repository';
 import { PrismaTourScheduleRepository } from './repositories/prisma-tour-schedule.repository';
 import { PrismaTourRepository } from './repositories/prisma-tour.repository';
 
 export class PrismaUnitOfWork implements IUnitOfWork {
-    async run<T>(work: (repos: any) => Promise<T>): Promise<T> {
-        return await prisma.$transaction(async (tx) => {
+    constructor(private readonly prisma: PrismaService) { }
+    async run<T>(work: (tx: any) => Promise<T>): Promise<T> {
+        return await this.prisma.$transaction(async (prismaTx: any) => {
             const repositories = {
-                tours: new PrismaTourRepository(tx as any),
-                schedules: new PrismaTourScheduleRepository(tx as any),
-                bookings: new PrismaBookingRepository(tx as any),
+                tours: new PrismaTourRepository(prismaTx),
+                schedules: new PrismaTourScheduleRepository(prismaTx),
+                bookings: new PrismaBookingRepository(prismaTx),
             };
             return await work(repositories);
         });

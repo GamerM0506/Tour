@@ -1,11 +1,10 @@
 import { IBookingRepository } from 'src/domain/repositories/booking.repository';
 import { Booking } from 'src/domain/entities/booking.entity';
 import { BookingMapper } from '../mappers/booking.mapper';
-import { PrismaClient } from '@prisma/client';
-import { prisma } from '../../../config/prisma.service';
+import { PrismaService } from '../../../config/prisma.service';
 
 export class PrismaBookingRepository implements IBookingRepository {
-    constructor(private readonly client: PrismaClient = prisma) { }
+    constructor(private readonly client: PrismaService) { }
 
     async findByScheduleId(scheduleId: string): Promise<Booking[]> {
         const raws = await this.client.booking.findMany({

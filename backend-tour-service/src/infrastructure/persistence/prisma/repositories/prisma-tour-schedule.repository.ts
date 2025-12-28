@@ -1,11 +1,10 @@
 import { ITourScheduleRepository } from 'src/domain/repositories/tour-schedule.repository';
 import { TourSchedule } from 'src/domain/entities/tour-schedule.entity';
 import { TourScheduleMapper } from '../mappers/tour-schedule.mapper';
-import { PrismaClient } from '@prisma/client';
-import { prisma } from '../../../config/prisma.service';
+import { PrismaService } from '../../../config/prisma.service';
 
 export class PrismaTourScheduleRepository implements ITourScheduleRepository {
-    constructor(private readonly client: PrismaClient = prisma) { }
+    constructor(private readonly client: PrismaService) { }
 
     async findAvailableSchedules(tourId: string, startDate: Date): Promise<TourSchedule[]> {
         const raws = await this.client.tourSchedule.findMany({
@@ -32,12 +31,11 @@ export class PrismaTourScheduleRepository implements ITourScheduleRepository {
     }
 
     async findByIdWithLock(id: string): Promise<TourSchedule | null> {
-        const raw: any[] = await (this.client as any).$queryRaw`
+        const raw: any[] = await this.client.$queryRaw`
             SELECT * FROM "TourSchedule" 
             WHERE "id" = ${id}
             FOR UPDATE
         `;
-
         if (raw.length === 0) return null;
         return TourScheduleMapper.toDomain(raw[0]);
     }

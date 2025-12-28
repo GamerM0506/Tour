@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { IStripeService } from 'src/application/interfaces/stripe.service';
 
+@Injectable()
 export class StripeService implements IStripeService {
     private stripe: Stripe;
 
