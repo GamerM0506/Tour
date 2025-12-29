@@ -33,7 +33,6 @@
   }
 }
 
-/* Hiệu ứng icon bay lơ lửng */
 @keyframes floating {
   0% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-15px) rotate(10deg); }
