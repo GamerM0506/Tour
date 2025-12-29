@@ -1,0 +1,49 @@
+/* src/shared/components/layout/footer.css */
+@reference "../../../app/globals.css";
+
+@layer components {
+  .footer-wrapper {
+    @apply relative w-full border-t pt-16 pb-8 overflow-hidden;
+    background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  }
+
+  /* Khối màu trang trí ẩn dưới nền */
+  .footer-blob {
+    @apply absolute -z-10 opacity-10 blur-3xl rounded-full;
+  }
+
+  .footer-link {
+    @apply text-slate-500 hover:text-orange-600 transition-all duration-300 
+           flex items-center gap-0 hover:gap-2;
+  }
+
+  .footer-link::before {
+    content: "→";
+    @apply opacity-0 -ml-4 transition-all duration-300 text-orange-500;
+  }
+
+  .footer-link:hover::before {
+    @apply opacity-100 ml-0;
+  }
+
+  .social-btn {
+    @apply h-10 w-10 rounded-full border-slate-200 hover:border-orange-400 
+           hover:bg-orange-50 hover:text-orange-600 transition-all duration-300 
+           hover:scale-110 flex items-center justify-center border;
+  }
+}
+
+/* Hiệu ứng icon bay lơ lửng */
+@keyframes floating {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(10deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: floating 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floating 4s ease-in-out 2s infinite;
+}

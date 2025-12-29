@@ -1,6 +1,42 @@
 {
+  "Navigation": {
+    "home": "Home",
+    "tours": "Tours",
+    "about": "About Us",
+    "blog": "Blog",
+    "contact": "Contact",
+    "book_now": "Book Now"
+  },
   "HomePage": {
     "title": "Hanoi Street Food Tour",
-    "description": "Allergy-Friendly & Wheelchair-Friendly"
+    "description": "Allergy-Friendly & Wheelchair Accessible"
+  },
+  "Footer": {
+    "home": "Home",
+    "tours": "Tours",
+    "about": "About Us",
+    "blog": "Blog",
+    "gallery": "Gallery",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "faq": "FAQ",
+    "description": "Experience the authentic taste of Hanoi through our curated food tours. Discover hidden gems and local favorites.",
+    "authentic": "Authentic Experience",
+    "newsletter": "Stay Updated",
+    "emailPlaceholder": "Your email address",
+    "subscribe": "Subscribe",
+    "newsletterDesc": "Get exclusive offers and food tips",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "copyright": "© 2024 Hanoi Food Tour. All rights reserved.",
+    "rightsReserved": "Experience Hanoi Like Never Before",
+    "paymentMethods": "Secure Payments",
+    "backToTop": "Back to top",
+    "rating": "Average Rating",
+    "happyCustomers": "Happy Customers",
+    "localPartners": "Local Partners"
   }
 }
