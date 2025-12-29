@@ -1,42 +1,36 @@
 {
   "Navigation": {
     "home": "Trang chủ",
-    "tours": "Danh sách tour",
-    "about": "Giới thiệu",
-    "blog": "Blog",
-    "contact": "Liên hệ",
-    "book_now": "Đặt tour"
+    "tours": "Hành trình",
+    "about": "Về chúng tôi",
+    "journal": "Nhật ký",
+    "contact": "Kết nối",
+    "book_now": "Yêu cầu tư vấn"
   },
   "HomePage": {
-    "title": "Tour Ẩm Thực Đường Phố Hà Nội",
-    "description": "Thân thiện với người dị ứng & người khuyết tật"
+    "title": "Random Tailored Tours",
+    "description": "Những hành trình độc bản được kiến tạo riêng cho tâm hồn ưa khám phá. Cảm nhận nhịp thở văn hóa bản địa qua lăng kính sang trọng và tinh tế.",
+    "featured_title": "Trải nghiệm Đặc sắc",
+    "featured_subtitle": "Những hành trình được tuyển chọn dành riêng cho bạn"
   },
   "Footer": {
-    "home": "Home",
-    "tours": "Tours",
-    "about": "About Us",
-    "blog": "Blog",
-    "gallery": "Gallery",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "cookies": "Cookie Policy",
-    "faq": "FAQ",
-    "description": "Experience the authentic taste of Hanoi through our curated food tours. Discover hidden gems and local favorites.",
-    "authentic": "Authentic Experience",
-    "newsletter": "Stay Updated",
-    "emailPlaceholder": "Your email address",
-    "subscribe": "Subscribe",
-    "newsletterDesc": "Get exclusive offers and food tips",
-    "quickLinks": "Quick Links",
-    "legal": "Legal",
-    "contact": "Contact Us",
-    "followUs": "Follow Us",
-    "copyright": "© 2024 Hanoi Food Tour. All rights reserved.",
-    "rightsReserved": "Experience Hanoi Like Never Before",
-    "paymentMethods": "Secure Payments",
-    "backToTop": "Back to top",
-    "rating": "Average Rating",
-    "happyCustomers": "Happy Customers",
-    "localPartners": "Local Partners"
+    "mission": "Kiến tạo những hành trình độc bản, kết nối tâm hồn với chiều sâu văn hóa và vẻ đẹp thiên nhiên.",
+    "explore": "Khám phá",
+    "contact": "Kết nối",
+    "newsletter": "Nhật ký hành trình",
+    "newsletter_desc": "Đăng ký nhận những thông tin cảm hứng về các hành trình mới nhất.",
+    "emailPlaceholder": "Địa chỉ email của bạn",
+    "rating": "Đánh giá từ khách hàng",
+    "copyright": "© 2025 Random Tailored Tours. Bảo lưu mọi quyền.",
+    "privacy": "Bảo mật",
+    "terms": "Điều khoản",
+    "exclusive": "Trải nghiệm độc quyền",
+    "privacy_note": "Quyền riêng tư của bạn rất quan trọng với chúng tôi. Chúng tôi không chia sẻ thông tin của bạn."
+  },
+  "Booking": {
+    "pax": "Số lượng khách",
+    "totalPrice": "Giá trị dự tính",
+    "checkAvailability": "Kiểm tra lịch trình",
+    "bookNow": "Đặt hành trình này"
   }
 }

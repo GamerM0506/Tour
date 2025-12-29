@@ -5,10 +5,25 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  --color-sand: #DCC9B6;
+  --color-sand-light: #E6D8C3;
+  --color-jet: #111111;
+  --color-soft-black: #1A1A1A;
+  --color-terracotta: #C46A4A;
+  --color-clay: #A1683A;
+  --color-forest: #2F3E2F;
+  --color-olive: #6B705C;
+  --background: var(--color-sand-light);
+  --foreground: var(--color-jet);
+  --primary: var(--color-terracotta);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-forest);
+  --secondary-foreground: var(--color-sand-light);
+  --accent: var(--color-clay);
+  --border: rgba(17, 17, 17, 0.08);
 }
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

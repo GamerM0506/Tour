@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Header } from "@/shared/components/layout/header";
-import { Footer } from "@/shared/components/layout/footer";
+import { Footer } from '@/shared/components/layout/footer';
 import "../globals.css";
 
 export default async function LocaleLayout({

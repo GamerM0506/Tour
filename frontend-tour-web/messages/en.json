@@ -1,42 +1,36 @@
 {
   "Navigation": {
     "home": "Home",
-    "tours": "Tours",
-    "about": "About Us",
-    "blog": "Blog",
-    "contact": "Contact",
-    "book_now": "Book Now"
+    "tours": "Experiences",
+    "about": "Our Story",
+    "journal": "Journal",
+    "contact": "Connect",
+    "book_now": "Inquiry"
   },
   "HomePage": {
-    "title": "Hanoi Street Food Tour",
-    "description": "Allergy-Friendly & Wheelchair Accessible"
+    "title": "Random Tailored Tours",
+    "description": "Bespoke journeys crafted for the curious soul. Discover the hidden pulse of local culture through a lens of refined luxury.",
+    "featured_title": "Curated Experiences",
+    "featured_subtitle": "Hand-picked journeys for the discerning traveler"
   },
   "Footer": {
-    "home": "Home",
-    "tours": "Tours",
-    "about": "About Us",
-    "blog": "Blog",
-    "gallery": "Gallery",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "cookies": "Cookie Policy",
-    "faq": "FAQ",
-    "description": "Experience the authentic taste of Hanoi through our curated food tours. Discover hidden gems and local favorites.",
-    "authentic": "Authentic Experience",
-    "newsletter": "Stay Updated",
+    "mission": "Crafting unique, personalized journeys that connect soul to culture and nature.",
+    "explore": "Explore",
+    "contact": "Connect",
+    "newsletter": "Journal",
+    "newsletter_desc": "Join our curated mailing list for soulful travel inspiration.",
     "emailPlaceholder": "Your email address",
-    "subscribe": "Subscribe",
-    "newsletterDesc": "Get exclusive offers and food tips",
-    "quickLinks": "Quick Links",
-    "legal": "Legal",
-    "contact": "Contact Us",
-    "followUs": "Follow Us",
-    "copyright": "© 2024 Hanoi Food Tour. All rights reserved.",
-    "rightsReserved": "Experience Hanoi Like Never Before",
-    "paymentMethods": "Secure Payments",
-    "backToTop": "Back to top",
-    "rating": "Average Rating",
-    "happyCustomers": "Happy Customers",
-    "localPartners": "Local Partners"
+    "rating": "Guest Experience",
+    "copyright": "© 2025 Random Tailored Tours. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "exclusive": "Exclusive Experiences",
+    "privacy_note": "Your privacy is important to us. We do not share your information."
+  },
+  "Booking": {
+    "pax": "Guest Count",
+    "totalPrice": "Estimated Value",
+    "checkAvailability": "Check Dates",
+    "bookNow": "Book This Experience"
   }
 }
