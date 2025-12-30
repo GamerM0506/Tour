@@ -2,6 +2,11 @@
   "name": "frontend-tour-web",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
   "scripts": {
     "dev": "next dev -p 5173",
     "build": "next build",
