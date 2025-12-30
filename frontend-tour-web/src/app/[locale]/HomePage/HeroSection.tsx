@@ -14,12 +14,12 @@ export const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-bg.jpg" 
+          src="https://res.cloudinary.com/dcfaz2rme/image/upload/v1767089103/508238823_750133594204746_4543110537008459001_n_uxwl8t.jpg"
           alt="Vietnam Luxury Travel"
           fill
-           className="object-cover blur-sm brightness-75"
           priority
-          sizes="100vw"
+          quality={65}
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-b from-jet/70 via-jet/50 to-jet/30" />
       </div>
@@ -61,8 +61,8 @@ export const HeroSection = () => {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-linear-to-r from-terracotta to-clay text-white px-10 py-7 rounded-full text-lg hover:shadow-2xl hover:shadow-terracotta/30 transition-all duration-300 group"
               asChild
             >
@@ -71,9 +71,9 @@ export const HeroSection = () => {
                 <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
               </Link>
             </Button>
-            
-            <Button 
-              variant="outline" 
+
+            <Button
+              variant="outline"
               size="lg"
               className="border-2 border-sand/30 text-sand px-10 py-7 rounded-full text-lg hover:bg-sand/10 hover:border-sand/50 transition-all duration-300"
               asChild
