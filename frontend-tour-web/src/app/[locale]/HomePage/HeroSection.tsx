@@ -6,6 +6,7 @@ import { Link } from "@/i18n/routing";
 import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, Compass, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import cloudinaryLoader from "@/core/utils/cloudinary-loader";
 
 export const HeroSection = () => {
   const t = useTranslations("Home");
@@ -14,12 +15,13 @@ export const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://res.cloudinary.com/dcfaz2rme/image/upload/f_auto,q_auto/v1767089103/508238823_750133594204746_4543110537008459001_n_uxwl8t.jpg"
+          loader={cloudinaryLoader}
+          src="508238823_750133594204746_4543110537008459001_n_uxwl8t.jpg"
           alt="Vietnam Luxury Travel"
           fill
           priority
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-linear-to-b from-jet/70 via-jet/50 to-jet/30" />
       </div>
