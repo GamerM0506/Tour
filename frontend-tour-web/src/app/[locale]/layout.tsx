@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { Header } from "@/shared/components/layout/header";
 import { Footer } from '@/shared/components/layout/footer';
 import "../globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default async function LocaleLayout({
     children,
@@ -24,6 +25,7 @@ export default async function LocaleLayout({
                         {children}
                     </main>
                     <Footer />
+                    <SpeedInsights />
                 </NextIntlClientProvider>
             </body>
         </html>
