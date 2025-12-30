@@ -90,7 +90,7 @@ export const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-sand/20"
           >
             {[
