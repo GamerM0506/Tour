@@ -50,7 +50,15 @@ export const HeroSection = () => {
 
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-sand-light mb-6 leading-tight">
             <span className="block">Random</span>
-            <span className="block italic">Tailored Tours</span>
+
+            <motion.span
+              initial={{ y: 15, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="block italic text-terracotta"
+            >
+              Tailored Tours
+            </motion.span>
           </h1>
 
           <p className="font-sans text-xl text-sand/80 mb-10 max-w-2xl mx-auto leading-relaxed">
@@ -90,7 +98,7 @@ export const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-sand/20"
           >
             {[
