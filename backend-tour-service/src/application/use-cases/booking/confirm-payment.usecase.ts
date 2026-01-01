@@ -15,23 +15,23 @@ export class ConfirmPaymentUseCase {
 
     async execute(paymentIntentId: string): Promise<void> {
         const booking = await this.bookingRepo.findByPaymentIntentId(paymentIntentId);
-        if (!booking) throw new BookingNotFoundException();
-
-        if (booking.paymentStatus === PaymentStatus.PAID) return;
+        if (!booking || booking.paymentStatus === PaymentStatus.PAID) return;
 
         await this.unitOfWork.run(async (tx) => {
             const schedule = await tx.schedules.findByIdWithLock(booking.scheduleId);
             if (!schedule) throw new ScheduleNotFoundException();
 
-            if (schedule.hasEnoughSlots(booking.numberOfGuests)) {
+            if (schedule.hasEnoughSlots(booking.totalGuests)) {
                 await this.stripeService.capturePayment(paymentIntentId);
+
                 booking.confirmAndCapture();
-                schedule.addBooking(booking.numberOfGuests);
+                schedule.addBooking(booking.totalGuests);
+
                 await tx.bookings.update(booking);
                 await tx.schedules.update(schedule);
             } else {
                 await this.stripeService.voidPayment(paymentIntentId);
-                booking.softDelete();
+                booking.cancel();
                 await tx.bookings.update(booking);
                 throw new BookingCapacityExceededException();
             }

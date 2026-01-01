@@ -4,14 +4,11 @@ import { CreateTourUseCase } from 'src/application/use-cases/tour/create-tour.us
 import { UpdateTourUseCase } from 'src/application/use-cases/tour/update-tour.usecase';
 import { DeleteTourUseCase } from 'src/application/use-cases/tour/delete-tour.usecase';
 import { PrismaTourRepository } from '../persistence/prisma/repositories/prisma-tour.repository';
-import { PrismaService } from '../config/prisma.service';
 import { CloudinaryService } from '../services/cloudinary.service';
-
 
 @Module({
     controllers: [TourController],
     providers: [
-        PrismaService,
         CreateTourUseCase,
         UpdateTourUseCase,
         DeleteTourUseCase,
@@ -24,5 +21,6 @@ import { CloudinaryService } from '../services/cloudinary.service';
             useClass: CloudinaryService,
         },
     ],
+    exports: ['ITourRepository'],
 })
 export class TourModule { }

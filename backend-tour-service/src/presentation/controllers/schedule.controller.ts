@@ -21,6 +21,7 @@ export class ScheduleController {
             maxCapacity: payload.maxSlots,
             timeZone: payload.timeZone || 'UTC',
             isHoliday: payload.isHoliday ?? false,
+            holidaySurcharge: payload.holidaySurcharge ?? 0,
             assignedStaff: payload.assignedStaff
         };
 

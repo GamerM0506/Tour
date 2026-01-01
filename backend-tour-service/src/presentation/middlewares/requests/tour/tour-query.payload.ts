@@ -16,4 +16,7 @@ export class TourQueryPayload {
     @Type(() => Number)
     @IsNumber()
     page?: number = 1;
+
+    @IsOptional() @Type(() => Number) @IsNumber() @Min(1)
+    limit?: number = 10;
 }

@@ -4,5 +4,6 @@ export class CreateScheduleRequest {
     maxCapacity: number;
     timeZone: string;
     isHoliday: boolean;
+    holidaySurcharge: number;
     assignedStaff?: string;
 }

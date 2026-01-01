@@ -8,11 +8,13 @@ export class UpdateScheduleUseCase {
     async execute(id: string, dto: UpdateScheduleRequest): Promise<void> {
         const schedule = await this.scheduleRepo.findById(id);
         if (!schedule) throw new ScheduleNotFoundException();
-        if (dto.assignedStaff !== undefined) (schedule as any).assignedStaff = dto.assignedStaff;
-        if (dto.status) schedule.status = dto.status;
-        if (dto.isHoliday !== undefined) (schedule as any).isHoliday = dto.isHoliday;
-        if (dto.startTime) (schedule as any).startTime = dto.startTime;
-        if (dto.maxCapacity) (schedule as any).maxCapacity = dto.maxCapacity;
+        const domainUpdates = {
+            ...dto,
+            assignedStaff: dto.assignedStaff ?? undefined
+        };
+
+        schedule.updateDetails(domainUpdates);
+
         await this.scheduleRepo.update(schedule);
     }
 }

@@ -5,6 +5,7 @@ import { CreateScheduleRequest } from "src/application/dtos/schedule/requests/cr
 import { TourSchedule } from "src/domain/entities/tour-schedule.entity";
 import { ScheduleStatus } from "src/domain/enums/schedule-status.enum";
 import { ScheduleNotFoundException } from "src/domain/exceptions/schedule.exception";
+import { TourNotFoundException } from "src/domain/exceptions/tour.exception";
 
 export class CreateScheduleUseCase {
     constructor(
@@ -14,20 +15,25 @@ export class CreateScheduleUseCase {
 
     async execute(dto: CreateScheduleRequest): Promise<ScheduleResponse> {
         const tour = await this.tourRepo.findById(dto.tourId);
-        if (!tour) throw new ScheduleNotFoundException();
+        if (!tour) throw new TourNotFoundException();
 
         const schedule = new TourSchedule(
-            dto.tourId,
-            dto.startTime,
-            dto.maxCapacity,
+            dto.tourId, 
+            dto.startTime, 
+            dto.maxCapacity, 
             dto.timeZone,
-            0,
-            ScheduleStatus.AVAILABLE,
-            dto.assignedStaff,
-            dto.isHoliday
+            0, ScheduleStatus.AVAILABLE, 
+            dto.assignedStaff, 
+            dto.isHoliday,
+            dto.holidaySurcharge
         );
 
         await this.scheduleRepo.save(schedule);
+
+        const availableTiers = tour.priceTiers.map(p => ({
+            tierName: p.tier,
+            basePrice: p.baseAmount + (schedule.isHoliday ? schedule.holidaySurcharge : 0)
+        }));
 
         return {
             id: schedule.id,
@@ -35,7 +41,8 @@ export class CreateScheduleUseCase {
             remainingSlots: schedule.remainingSlots,
             status: schedule.status,
             isHoliday: schedule.isHoliday,
-            finalPrice: schedule.getFinalPrice(tour.price)
+            holidaySurcharge: schedule.holidaySurcharge,
+            availableTiers
         };
     }
 }

@@ -4,5 +4,9 @@ export class ScheduleResponse {
     remainingSlots: number;
     status: string;
     isHoliday: boolean;
-    finalPrice: number;
+    holidaySurcharge: number;
+    availableTiers: {
+        tierName: string;
+        basePrice: number;
+    }[];
 }

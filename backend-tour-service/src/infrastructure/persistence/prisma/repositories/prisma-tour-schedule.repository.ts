@@ -31,13 +31,13 @@ export class PrismaTourScheduleRepository implements ITourScheduleRepository {
     }
 
     async findByIdWithLock(id: string): Promise<TourSchedule | null> {
-        const raw: any[] = await this.client.$queryRaw`
-            SELECT * FROM "TourSchedule" 
-            WHERE "id" = ${id}
-            FOR UPDATE
-        `;
-        if (raw.length === 0) return null;
-        return TourScheduleMapper.toDomain(raw[0]);
+        const raws = await this.client.$queryRawUnsafe<any[]>(
+            `SELECT * FROM "TourSchedule" WHERE "id" = $1 FOR UPDATE`,
+            id
+        );
+
+        if (!raws || raws.length === 0) return null;
+        return TourScheduleMapper.toDomain(raws[0]);
     }
 
     async save(entity: TourSchedule): Promise<void> {

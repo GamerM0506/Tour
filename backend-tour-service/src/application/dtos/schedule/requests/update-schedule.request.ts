@@ -5,6 +5,7 @@ export class UpdateScheduleRequest {
     maxCapacity?: number;
     timeZone?: string;
     status?: ScheduleStatus;
-    assignedStaff?: string;
+    assignedStaff?: string | null;
     isHoliday?: boolean;
+    holidaySurcharge?: number;
 }

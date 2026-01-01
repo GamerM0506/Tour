@@ -1,49 +1,59 @@
+"use client";
+
+import { memo } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import cloudinaryLoader from "@/core/utils/cloudinary-loader";
 
 interface FooterBrandProps {
     t: any;
 }
 
-export const FooterBrand = ({ t }: FooterBrandProps) => {
-    const socialIcons = [
-        {
-            Icon: Facebook,
-            label: "Facebook",
-            brandColor: "hover:border-[#1877F2]",
-            textColor: "group-hover:text-[#1877F2]",
-            bgColor: "group-hover:bg-[#1877F2]/10"
-        },
-        {
-            Icon: Instagram,
-            label: "Instagram",
-            brandColor: "hover:border-[#E4405F]",
-            textColor: "group-hover:text-[#E4405F]",
-            bgColor: "group-hover:bg-[#E4405F]/10"
-        },
-        {
-            Icon: Youtube,
-            label: "Youtube",
-            brandColor: "hover:border-[#FF0000]",
-            textColor: "group-hover:text-[#FF0000]",
-            bgColor: "group-hover:bg-[#FF0000]/10"
-        }
-    ];
+const SOCIAL_ICONS = [
+    {
+        Icon: Facebook,
+        label: "Facebook",
+        href: "https://facebook.com/yourpage",
+        brandColor: "hover:border-[#1877F2]",
+        textColor: "group-hover:text-[#1877F2]",
+        bgColor: "group-hover:bg-[#1877F2]/10"
+    },
+    {
+        Icon: Instagram,
+        label: "Instagram",
+        href: "https://instagram.com/yourpage",
+        brandColor: "hover:border-[#E4405F]",
+        textColor: "group-hover:text-[#E4405F]",
+        bgColor: "group-hover:bg-[#E4405F]/10"
+    },
+    {
+        Icon: Youtube,
+        label: "Youtube",
+        href: "https://youtube.com/yourpage",
+        brandColor: "hover:border-[#FF0000]",
+        textColor: "group-hover:text-[#FF0000]",
+        bgColor: "group-hover:bg-[#FF0000]/10"
+    }
+];
 
+export const FooterBrand = memo(({ t }: FooterBrandProps) => {
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 transform-gpu" style={{ contain: 'content' }}>
             <div className="relative overflow-hidden rounded-xl p-2 bg-linear-to-br from-sand/5 to-sand/10 border border-sand/10">
                 <Link
                     href="/"
-                    className="relative h-16 w-48 block mx-auto transition-transform hover:scale-[1.02] duration-500"
+                    className="relative h-16 w-48 block mx-auto transition-transform hover:scale-[1.02] duration-500 will-change-transform transform-gpu"
                 >
+
                     <Image
-                        src="/logo.jpg"
+                        loader={cloudinaryLoader}
+                        src="logo_ytiuzt" 
                         alt="Random Tailored Tours"
                         fill
+                        sizes="192px"
+                        loading="lazy"
                         className="object-contain brightness-110"
-                        priority
                     />
                 </Link>
             </div>
@@ -53,11 +63,16 @@ export const FooterBrand = ({ t }: FooterBrandProps) => {
             </p>
 
             <div className="flex gap-3 pt-4 justify-center md:justify-start">
-                {socialIcons.map((social) => (
+                {SOCIAL_ICONS.map((social) => (
                     <a
                         key={social.label}
-                        href="#"
-                        className={`relative w-10 h-10 rounded-full flex items-center justify-center bg-linear-to-br from-sand/5 to-sand/10 border border-sand/20 transition-all duration-300 group backdrop-blur-sm ${social.brandColor} ${social.bgColor}`}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer" 
+                        className={`relative w-10 h-10 rounded-full flex items-center justify-center 
+                                   bg-linear-to-br from-sand/5 to-sand/10 border border-sand/20 
+                                   transition-all duration-300 group backdrop-blur-sm transform-gpu
+                                   ${social.brandColor} ${social.bgColor}`}
                         aria-label={social.label}
                     >
                         <div className={`absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${social.bgColor}`} />
@@ -72,4 +87,6 @@ export const FooterBrand = ({ t }: FooterBrandProps) => {
             </div>
         </div>
     );
-};
+});
+
+FooterBrand.displayName = "FooterBrand";

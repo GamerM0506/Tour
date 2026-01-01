@@ -1,4 +1,3 @@
-import { ITourRepository } from 'src/domain/repositories/tour.repository';
 import { CreateBookingRequest } from 'src/application/dtos/booking/requests/create-booking.request';
 import { BookingResponse } from 'src/application/dtos/booking/responses/booking.response';
 import { Booking } from 'src/domain/entities/booking.entity';
@@ -9,7 +8,6 @@ import { TourNotFoundException } from 'src/domain/exceptions/tour.exception';
 
 export class CreateReservationUseCase {
     constructor(
-        private readonly tourRepo: ITourRepository,
         private readonly unitOfWork: IUnitOfWork,
     ) { }
 
@@ -18,16 +16,33 @@ export class CreateReservationUseCase {
             const schedule = await tx.schedules.findByIdWithLock(dto.scheduleId);
             if (!schedule || schedule.isDeleted) throw new ScheduleNotFoundException();
 
-            const tour = await this.tourRepo.findById(schedule.tourId);
+            const tour = await tx.tours.findById(schedule.tourId);
             if (!tour) throw new TourNotFoundException();
 
             tour.validateGuestRequirements(dto.needsWheelchair, dto.allergies);
-            if (!schedule.hasEnoughSlots(dto.numberOfGuests)) {
+
+            const selectedPrice = tour.getPriceTier(dto.selectedTierName);
+
+
+            const totalPax = dto.adultsCount + dto.childrenCount + dto.infantsCount;
+            if (!schedule.hasEnoughSlots(totalPax)) {
                 throw new BookingCapacityExceededException();
             }
 
-            const finalPricePerPerson = schedule.getFinalPrice(tour.price);
-            const totalAmount = finalPricePerPerson * dto.numberOfGuests;
+            const under12s = dto.childrenCount + dto.infantsCount;
+
+            const baseTotal = tour.calculateTotalPrice(
+                dto.selectedTierName,
+                dto.adultsCount,
+                dto.childrenCount,
+                dto.infantsCount
+            );
+
+            const holidaySurcharge = schedule.calculateTotalSurcharge(dto.adultsCount, under12s);
+            const finalTotal = baseTotal + holidaySurcharge;
+
+            schedule.addBooking(totalPax);
+
             const booking = new Booking(
                 schedule.id,
                 dto.contactEmail,
@@ -35,20 +50,34 @@ export class CreateReservationUseCase {
                 dto.guestName,
                 dto.guestEmail,
                 dto.guestPhone,
-                dto.customerNote || "",
-                dto.numberOfGuests,
-                totalAmount,
-                schedule.startTime
+                dto.adultsCount,
+                dto.childrenCount,
+                dto.infantsCount,
+                dto.selectedTierName,
+                finalTotal,
+                schedule.startTime,
+                dto.allergies,
+                dto.needsWheelchair,
+                dto.customerNote
             );
+
             await tx.bookings.save(booking);
+
             const expiresAt = new Date(booking.createdAt.getTime() + 15 * 60 * 1000);
+
             return {
                 id: booking.id,
                 status: booking.status,
                 totalPrice: booking.totalPrice,
+                currency: selectedPrice.currency,
                 paymentStatus: booking.paymentStatus,
                 tourStartTime: booking.tourStartTime,
-                expiresAt: expiresAt
+                expiresAt: expiresAt,
+                guestSummary: {
+                    adults: dto.adultsCount,
+                    children: dto.childrenCount,
+                    infants: dto.infantsCount
+                }
             };
         });
     }

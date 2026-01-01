@@ -1,40 +1,53 @@
 import { Currency } from "../enums/currency.enum";
-import { BookingCapacityExceededException, InvalidGuestCountException } from "../exceptions/booking.exception";
-import { InvalidTourPriceException } from "../exceptions/tour.exception";
+import {
+    BookingCapacityExceededException,
+    InvalidGuestCountException
+} from "../exceptions/booking.exception";
 
 export class Price {
     constructor(
         public readonly baseAmount: number,
         public readonly currency: Currency = Currency.USD,
-        public readonly isPrivate: boolean = false,
+        public readonly tier: 'budget' | 'standard' | 'premium' = 'standard',
         public readonly minGuests: number = 1,
-        public readonly maxGuests: number = 10
+        public readonly maxGuests: number = 15,
+        public readonly groupDiscountThreshold?: number,
+        public readonly discountedAmount?: number
     ) {
-        this.validatePricePackage();
+        this.validateBaseAmount();
     }
 
-    private validatePricePackage(): void {
-        const validPackages = [15, 40];
-        if (!validPackages.includes(this.baseAmount)) {
-            throw new InvalidTourPriceException(this.baseAmount);
+    private validateBaseAmount(): void {
+        if (this.baseAmount <= 0) {
+            throw new Error("Price amount must be greater than zero");
         }
     }
 
-    public validateGuestCount(count: number): void {
+    public getPerAdultRate(totalPax: number): number {
+        if (this.groupDiscountThreshold && totalPax >= this.groupDiscountThreshold) {
+            return this.discountedAmount ?? this.baseAmount;
+        }
+        return this.baseAmount;
+    }
+
+    public calculateTotal(
+        adults: number,
+        under12s: number = 0
+    ): number {
+        const totalPax = adults + under12s;
+        this.validateGuestCount(totalPax);
+        const adultRate = this.getPerAdultRate(totalPax);
+        const adultsTotal = adults * adultRate;
+        const under12sTotal = under12s * (adultRate * 0.5);
+        return adultsTotal + under12sTotal;
+    }
+
+    private validateGuestCount(count: number): void {
         if (count < this.minGuests || count <= 0) {
             throw new InvalidGuestCountException();
         }
         if (count > this.maxGuests) {
             throw new BookingCapacityExceededException();
         }
-    }
-
-    get perPersonRate(): number {
-        return this.baseAmount + (this.isPrivate ? 5 : 0);
-    }
-
-    public calculateTotal(guests: number): number {
-        this.validateGuestCount(guests);
-        return this.perPersonRate * guests;
     }
 }

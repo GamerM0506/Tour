@@ -1,12 +1,15 @@
 export class CreateBookingRequest {
     scheduleId: string;
-    contactEmail: string;
+    contactEmail: string; 
     contactPhone: string;
-    guestName: string;
     guestEmail: string;
     guestPhone: string;
-    numberOfGuests: number;
+    guestName: string;
+    adultsCount: number;
+    childrenCount: number;
+    infantsCount: number;
+    selectedTierName: string;
     customerNote?: string;
     needsWheelchair: boolean;
     allergies: string[];
-}   
+}

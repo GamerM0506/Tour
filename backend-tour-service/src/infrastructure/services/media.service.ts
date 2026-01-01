@@ -11,11 +11,17 @@ export class CloudinaryMediaService implements IMediaService {
     }
 
     async uploadImage(file: any): Promise<string> {
-        const result = await cloudinary.uploader.upload(file.path, {
-            folder: 'medicare/tours/images',
-            transformation: [{ width: 1000, crop: "limit" }]
+        if (!file || !file.buffer) return '';
+        return new Promise((resolve, reject) => {
+            const upload = cloudinary.uploader.upload_stream(
+                { folder: 'luxury-tours/images' },
+                (error, result) => {
+                    if (error) return reject(error);
+                    resolve(result?.secure_url || '');
+                }
+            );
+            upload.end(file.buffer);
         });
-        return result.secure_url;
     }
 
     async uploadVideo(file: any): Promise<string> {

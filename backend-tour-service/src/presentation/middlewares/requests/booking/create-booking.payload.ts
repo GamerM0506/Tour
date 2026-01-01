@@ -23,11 +23,26 @@ export class CreateBookingPayload {
     @IsNumber()
     @Min(1)
     @Type(() => Number)
-    numberOfGuests: number;
+    adultsCount: number;
+
+    @IsNumber()
+    @Min(0)
+    @IsOptional()
+    @Type(() => Number)
+    childrenCount: number = 0;
+
+    @IsNumber()
+    @Min(0)
+    @IsOptional()
+    @Type(() => Number)
+    infantsCount: number = 0;
+
+    @IsString()
+    selectedTierName: string;
 
     @IsOptional()
     @IsString()
-    customerNote?: string;
+    customerNote?: string;  
 
     @IsBoolean()
     @Type(() => Boolean)

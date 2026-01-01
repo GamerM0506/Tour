@@ -1,8 +1,11 @@
 import {
     IsString, IsNumber, IsArray, Min, IsNotEmpty,
-    IsOptional, IsBoolean
+    IsOptional, IsBoolean,
+    ValidateNested
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PriceTierPayload } from './price-tier.payload';
+import { ItineraryStepPayload } from './itinerary-step.payload';
 
 export class CreateTourPayload {
     @IsString()
@@ -23,10 +26,10 @@ export class CreateTourPayload {
     @IsString({ each: true })
     categories: string[];
 
-    @IsNotEmpty()
-    @Type(() => Number) 
-    @IsNumber()
-    baseAmount: number;
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => PriceTierPayload)
+    priceTiers: PriceTierPayload[];
 
     @IsString()
     currency: string;
@@ -55,9 +58,10 @@ export class CreateTourPayload {
     @IsString({ each: true })
     highlights?: string[];
 
-    @IsOptional()
-    @IsArray()
-    itinerary?: any[];
+    @IsOptional() @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ItineraryStepPayload)
+    itinerary?: ItineraryStepPayload[];
 
     @IsOptional()
     @IsString()

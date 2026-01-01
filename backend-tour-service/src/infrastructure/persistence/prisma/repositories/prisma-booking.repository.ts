@@ -2,6 +2,8 @@ import { IBookingRepository } from 'src/domain/repositories/booking.repository';
 import { Booking } from 'src/domain/entities/booking.entity';
 import { BookingMapper } from '../mappers/booking.mapper';
 import { PrismaService } from '../../../config/prisma.service';
+import { BookingStatus } from 'src/domain/enums/booking-status.enum';
+import { PaymentStatus } from 'src/domain/enums/payment-status.enum';
 
 export class PrismaBookingRepository implements IBookingRepository {
     constructor(private readonly client: PrismaService) { }
@@ -58,8 +60,8 @@ export class PrismaBookingRepository implements IBookingRepository {
     async findExpiredBookings(threshold: Date): Promise<Booking[]> {
         const raws = await this.client.booking.findMany({
             where: {
-                status: 'pending',
-                paymentStatus: 'unpaid',
+                status: BookingStatus.PENDING,
+                paymentStatus: PaymentStatus.UNPAID,
                 createdAt: { lt: threshold },
                 deletedAt: null
             }

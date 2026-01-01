@@ -1,6 +1,6 @@
-import { IsNumber, Min, IsUUID, IsOptional, IsString, IsBoolean } from 'class-validator';
-import { Type } from 'class-transformer';
-import { IsFutureDate } from 'src/presentation/validators/is-future-date.validator';
+import { Type } from "class-transformer";
+import { IsUUID, IsNumber, Min, IsString, IsOptional, IsBoolean } from "class-validator";
+import { IsFutureDate } from "src/presentation/validators/is-future-date.validator";
 
 export class CreateSchedulePayload {
     @IsUUID('4')
@@ -23,7 +23,14 @@ export class CreateSchedulePayload {
     @Type(() => Boolean)
     isHoliday?: boolean;
 
+    @IsNumber()
+    @IsOptional()
+    @Min(0)
+    @Type(() => Number)
+    holidaySurcharge?: number;
+
     @IsString()
     @IsOptional()
     assignedStaff?: string;
 }
+

@@ -9,6 +9,16 @@ export class TourMapper {
     static toDomain(raw: PrismaTour): Tour {
         const thumb = raw.thumbnail as any;
         const gall = (raw.gallery as any[]) || [];
+        const priceTiers = (raw.priceTiers as any[]).map(p => new Price(
+            p.baseAmount,
+            p.currency as Currency,
+            p.tier,
+            p.minGuests,
+            p.maxGuests,
+            p.groupDiscountThreshold,
+            p.discountedAmount
+        ));
+
         return new Tour(
             raw.title,
             raw.overview,
@@ -17,7 +27,7 @@ export class TourMapper {
             raw.categories,
             raw.route,
             raw.startTimes,
-            new Price(raw.baseAmount, raw.currency as Currency),
+            priceTiers, 
             raw.wheelchairAccessible,
             raw.supportedAllergies,
             raw.highlights,
@@ -40,23 +50,22 @@ export class TourMapper {
             categories: entity.categories,
             route: entity.route,
             startTimes: entity.startTimes,
-            baseAmount: entity.price.baseAmount,
-            currency: entity.price.currency,
+            priceTiers: entity.priceTiers.map(p => ({
+                baseAmount: p.baseAmount,
+                currency: p.currency,
+                tier: p.tier,
+                minGuests: p.minGuests,
+                maxGuests: p.maxGuests,
+                groupDiscountThreshold: p.groupDiscountThreshold,
+                discountedAmount: p.discountedAmount
+            })),
             wheelchairAccessible: entity.wheelchairAccessible,
             supportedAllergies: entity.supportedAllergies,
             highlights: entity.highlights,
             itinerary: entity.itinerary,
             accessibilityNotes: entity.accessibilityNotes,
-            thumbnail: {
-                url: entity.thumbnail.url,
-                type: entity.thumbnail.type,
-                alt: entity.thumbnail.alt
-            },
-            gallery: entity.gallery.map(m => ({
-                url: m.url,
-                type: m.type,
-                alt: m.alt
-            })),
+            thumbnail: entity.thumbnail,
+            gallery: entity.gallery,
             introVideoUrl: entity.introVideoUrl,
             deletedAt: entity.deletedAt
         };

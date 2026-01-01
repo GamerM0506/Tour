@@ -11,8 +11,9 @@ export class TourScheduleMapper {
             raw.timeZone,
             raw.currentBookings,
             raw.status as ScheduleStatus,
-            raw.assignedStaff || undefined,
+            raw.assignedStaff ?? undefined,
             raw.isHoliday,
+            raw.holidaySurcharge,
             raw.id
         );
     }
@@ -28,6 +29,7 @@ export class TourScheduleMapper {
             status: entity.status,
             assignedStaff: entity.assignedStaff,
             isHoliday: entity.isHoliday,
+            holidaySurcharge: entity.holidaySurcharge,
             deletedAt: entity.deletedAt
         };
     }
