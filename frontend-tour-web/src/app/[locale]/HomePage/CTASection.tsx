@@ -7,7 +7,6 @@ import { Button } from "@/shared/components/ui/button";
 import { ArrowRight, MessageSquare, Calendar, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 
-// 1. Memoize dữ liệu tĩnh để tránh tạo lại mảng khi component re-render
 const FEATURES_DATA = (t: any) => [
     {
         icon: <Calendar className="h-8 w-8" />,
@@ -33,10 +32,8 @@ export const CTASection = memo(() => {
     return (
         <section 
             className="py-24 relative overflow-hidden transform-gpu"
-            // 2. Cô lập vùng layout để trình duyệt không tính toán lại toàn bộ trang khi có animation
             style={{ contain: 'content' }}
         >
-            {/* Background tối ưu GPU */}
             <div className="absolute inset-0 bg-linear-to-br from-terracotta/5 via-sand/5 to-clay/5 transform-gpu" />
             <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-terracotta/20 to-transparent" />
 
@@ -46,7 +43,6 @@ export const CTASection = memo(() => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    // 3. Ép dùng GPU cho animation để giữ mức 120fps
                     className="max-w-4xl mx-auto text-center transform-gpu will-change-transform"
                 >
                     <span className="inline-block px-6 py-3 bg-linear-to-r from-terracotta/10 to-clay/10 text-terracotta rounded-full text-sm font-medium mb-6">
@@ -91,7 +87,6 @@ export const CTASection = memo(() => {
                         </Button>
                     </div>
 
-                    {/* 4. Tối ưu hóa Grid Features: Chống giật khi cuộn */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 border-t border-jet/10 transform-gpu">
                         {features.map((feature, index) => (
                             <motion.div

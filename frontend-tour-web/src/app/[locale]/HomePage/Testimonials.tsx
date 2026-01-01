@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import cloudinaryLoader from "@/core/utils/cloudinary-loader";
+import { CldImage } from "next-cloudinary";
 
 interface Testimonial {
     id: number;
@@ -17,7 +18,6 @@ interface Testimonial {
     tour: string;
 }
 
-// 1. Tách dữ liệu ra ngoài để tránh khởi tạo lại mảng trong mỗi lần render
 const TESTIMONIALS_DATA = (t: any): Testimonial[] => [
     {
         id: 1,
@@ -25,7 +25,7 @@ const TESTIMONIALS_DATA = (t: any): Testimonial[] => [
         location: "New York, USA",
         text: t("testimonial1_text") || "Our Vietnam tour was perfectly tailored to our interests. The local experiences were unforgettable.",
         rating: 5,
-        image: "testimonials/couple1_z1v2", 
+        image: "268f7145b90916291841afdb3816406d_duhbuz", 
         tour: "Halong Luxury Cruise"
     },
     {
@@ -34,7 +34,7 @@ const TESTIMONIALS_DATA = (t: any): Testimonial[] => [
         location: "Singapore",
         text: t("testimonial2_text") || "Professional service and attention to detail. Every moment felt special and well-planned.",
         rating: 5,
-        image: "testimonials/solo1_x3y4",
+        image: "268f7145b90916291841afdb3816406d_duhbuz",
         tour: "Sapa Adventure"
     },
     {
@@ -43,7 +43,7 @@ const TESTIMONIALS_DATA = (t: any): Testimonial[] => [
         location: "London, UK",
         text: t("testimonial3_text") || "Perfect family vacation! The kids loved the cultural activities and the food was incredible.",
         rating: 5,
-        image: "testimonials/family1_a5b6",
+        image: "268f7145b90916291841afdb3816406d_duhbuz",
         tour: "Vietnam Family Journey"
     },
 ];
@@ -55,7 +55,7 @@ export const Testimonials = memo(() => {
     return (
         <section 
             className="py-24 bg-sand-light transform-gpu"
-            style={{ contain: 'content' }} // 2. Cô lập vùng render để tối ưu Reflow
+            style={{ contain: 'content' }} 
         >
             <div className="container mx-auto px-6 lg:px-12">
                 <motion.div
@@ -84,9 +84,8 @@ export const Testimonials = memo(() => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
-                            className="relative group transform-gpu will-change-transform" // 3. Tối ưu GPU cho Card
+                            className="relative group transform-gpu will-change-transform"
                         >
-                            {/* Icon Quote trang trí - dùng CSS GPU */}
                             <div className="absolute -top-4 -left-4 z-10 opacity-30 group-hover:scale-110 transition-transform duration-500 transform-gpu">
                                 <Quote className="h-10 w-10 text-terracotta" aria-hidden="true" />
                             </div>
@@ -110,15 +109,20 @@ export const Testimonials = memo(() => {
 
                                 <div className="flex items-center gap-4">
                                     <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-terracotta/10 shrink-0 transform-gpu">
-                                        <Image
-                                            loader={cloudinaryLoader}
-                                            src={testimonial.image}
-                                            alt={testimonial.name}
-                                            fill
-                                            loading="lazy" // 4. Chỉ tải khi cuộn tới
-                                            className="object-cover"
-                                            sizes="56px"
-                                        />
+                                        <CldImage
+    src={testimonial.image} // Public ID của ảnh testimonial
+    alt={testimonial.name}
+    fill
+    loading="lazy"
+    // 1. Tối ưu kích thước: Đảm bảo chỉ tải đúng 56px cho avatar
+    sizes="56px"
+    // 2. Tự động nhận diện khuôn mặt và cắt tròn (Luxury UI)
+    crop="thumb"
+    gravity="face"
+    // 3. Tối ưu nén: Tự động dùng AVIF và q_auto
+    quality="auto"
+    className="object-cover"
+  />
                                     </div>
                                     <div className="min-w-0">
                                         <div className="font-sans font-bold text-jet truncate">{testimonial.name}</div>
